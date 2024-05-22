@@ -33,18 +33,18 @@ func FinishHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	updatePartyInfos(codeParty, resultParty)
+
 	// TODO: update coins of user
-	utils.SuccessResponseHandler(w, 0)
+	utils.SuccessResponseHandler(w, "0")
 }
 
-func updatePartyInfos(code string, status int32) {
+func updatePartyInfos(code string, status string) {
 	// private func to update the party status
-
 	if utils.DatabaseConnnection == nil {
 		return 
 	}
 
-	rows, err := utils.DatabaseConnnection.Query("UPDATE shifumi_parties SET status = ? WHERE status = 0 and code = ?", status, code)
+	_, err := utils.DatabaseConnnection.Query("UPDATE shifumi_parties SET status = ? WHERE status = 0 and code = ?", status, code)
 	if err != nil {
 		fmt.Println(err)
 		return 
